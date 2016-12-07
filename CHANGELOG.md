@@ -7,4 +7,4 @@ Version 1.1.0:
   The implementation is automatically included. This was decided because every function is either a macro or inlined. 
   Note: you still can define the optional flags, and they must be defined everywhere you include the header if you want the 
   functionality across multiple translation units.
-- Minor bug fixes regarding API interaction with ‘VEC_MAX_ALLOC’.
+- Minor bug fixes regarding API interaction with ‘VEC_MAX_PREALLOC’.
