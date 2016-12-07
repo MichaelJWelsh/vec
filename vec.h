@@ -55,9 +55,9 @@
  *      
  *      VEC_MALLOC <func name>
  *          By default, uses 'malloc' from the stdlib. 
- *    	
- *    	VEC_CALLOC <func name>
- *    		By default, uses 'calloc' from the stdlib.
+ *		
+ *		VEC_CALLOC <func name>
+ *			By default, uses 'calloc' from the stdlib.
  *
  *      VEC_REALLOC <func name>
  *          By default, uses 'realloc' from the stdlib.
@@ -221,7 +221,7 @@ VEC_API     void    vec_remove(void *vec, size_t index);
         if ((size_t) size == size && size > _vec_hdr_cap(vec)) {                                                \
             void *temp = VEC_REALLOC(_vec_hdr_addr(vec), sizeof(size_t) * 3 + size * _vec_hdr_item_size(vec));  \
             if (temp == NULL) {                                                                                 \
-                break;			                                                                                \
+                break;																							\
             }                                                                                                   \
             vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                          \
                                                                                                                 \
@@ -237,7 +237,7 @@ VEC_API     void    vec_remove(void *vec, size_t index);
                 _vec_hdr_addr(vec), sizeof(size_t) * 3 + new_cap * _vec_hdr_item_size(vec)                      \
             );                                                                                                  \
             if (temp == NULL) {                                                                                 \
-                break;    		 	                                                                            \
+                break;																							\
             }                                                                                                   \
             vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                          \
                                                                                                                 \
