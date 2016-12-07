@@ -3,14 +3,11 @@ The Vec library is meant to add generic and fast vectors to C (and is compatible
 
 
 ## Usage
-This library is self contained in one single header file and can be used either in header only mode or in implementation mode. The header only mode is used by default when included and allows including this header in other headers and does not contain the actual implementation. 
-
-The implementation mode requires to define the preprocessor macro VEC_IMPLEMENTATION in *one* .c/.cpp file before #including this file, e.g.:
+This library is self contained in one single header file and can be used by simply #including the 'vec.h' file, e.g.:
 ```C
-#define VEC_IMPLEMENTATION
 #include "vec.h"
 ```
-Also optionally define the symbols listed under the "OPTIONAL DEFINES" section in the header *only* in implementation mode if you want to use additional functionality or need more control over the library. 
+Also optionally define the symbols listed in the header's subtitled section "OPTIONAL DEFINES" before the #include if you want to use additional functionality or need more control over the library. 
 
 
 ## API
@@ -37,7 +34,6 @@ The following is a list of available functions (all prefixed with "vec_"):
 #include <stdio.h>
 
 
-#define VEC_IMPLEMENTATION
 #define VEC_PRIVATE
 #include "vec.h"
 
