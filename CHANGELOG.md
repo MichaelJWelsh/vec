@@ -1,3 +1,8 @@
+Version 1.1.1:
+- Merged pull request by 'Lakhdar Slaim': now using '_vec_hdr_size' instead of 'sizeof(size_t) * 3'.
+- Minor bug fix regarding 'vec_insert(...)' interaction with a zero-length vector.
+
+
 Version 1.1.0:
 - ‘VEC_CALLOC’ is now used instead of ‘VEC_MALLOC/memset(, 0, )’. Like usual, ‘VEC_CALLOC’ can be defined by the user.
 - ‘vec_reserve’ and ‘vec_shrink’ simply do nothing (rather than raising a ‘SIGSEGV’) if they cannot undergo their respective 
