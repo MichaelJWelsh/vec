@@ -1,6 +1,6 @@
 Version 1.1.1:
 - Merged pull request by 'Lakhdar Slaim': now using '_vec_hdr_size' instead of 'sizeof(size_t) * 3'.
-- Minor bug fix regarding 'vec_insert(...)' interaction with a zero-length vector.
+- Minor bug fix regarding 'vec_insert(...)' interaction with an index equal to the vec's length.
 
 
 Version 1.1.0:
