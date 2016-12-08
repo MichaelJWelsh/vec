@@ -161,17 +161,17 @@ VEC_API     void    vec_remove(void *vec, size_t index);
                 <= VEC_MAX_PREALLOC)                                                                            \
             {                                                                                                   \
                 new_cap = (size_t) (_vec_hdr_cap(vec) * 1.5);                                                   \
-                new_total_size = sizeof(size_t) * 3 + (new_cap) * _vec_hdr_item_size(vec);                      \
+                new_total_size = _vec_hdr_size + (new_cap) * _vec_hdr_item_size(vec);                      \
             } else {                                                                                            \
                 new_cap = _vec_hdr_cap(vec) + 1;                                                                \
-                new_total_size = sizeof(size_t) * 3 + (new_cap) * _vec_hdr_item_size(vec);                      \
+                new_total_size = _vec_hdr_size + (new_cap) * _vec_hdr_item_size(vec);                      \
             }                                                                                                   \
                                                                                                                 \
             void *temp = VEC_REALLOC(_vec_hdr_addr(vec), new_total_size);                                       \
             if (temp == NULL) {                                                                                 \
                 raise(SIGSEGV);                                                                                 \
             }                                                                                                   \
-            vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                          \
+            vec = _vec_cast(vec) ((char *) temp + _vec_hdr_size);                                          \
                                                                                                                 \
             _vec_hdr_cap(vec) = new_cap;                                                                        \
         }                                                                                                       \
@@ -190,17 +190,17 @@ VEC_API     void    vec_remove(void *vec, size_t index);
                     <= VEC_MAX_PREALLOC)                                                                        \
                 {                                                                                               \
                     new_cap = (size_t) (_vec_hdr_cap(vec) * 1.5);                                               \
-                    new_total_size = sizeof(size_t) * 3 + (new_cap) * _vec_hdr_item_size(vec);                  \
+                    new_total_size = _vec_hdr_size + (new_cap) * _vec_hdr_item_size(vec);                  \
                 } else {                                                                                        \
                     new_cap = _vec_hdr_cap(vec) + 1;                                                            \
-                    new_total_size = sizeof(size_t) * 3 + (new_cap) * _vec_hdr_item_size(vec);                  \
+                    new_total_size = _vec_hdr_size + (new_cap) * _vec_hdr_item_size(vec);                  \
                 }                                                                                               \
                                                                                                                 \
                 void *temp = VEC_REALLOC(_vec_hdr_addr(vec), new_total_size);                                   \
                 if (temp == NULL) {                                                                             \
                     raise(SIGSEGV);                                                                             \
                 }                                                                                               \
-                vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                      \
+                vec = _vec_cast(vec) ((char *) temp + _vec_hdr_size);                                      \
                                                                                                                 \
                 _vec_hdr_cap(vec) = new_cap;                                                                    \
             }                                                                                                   \
@@ -225,11 +225,11 @@ VEC_API     void    vec_remove(void *vec, size_t index);
 #define vec_reserve(vec, size)                                                                                  \
     do {                                                                                                        \
         if ((size_t) size == size && size > _vec_hdr_cap(vec)) {                                                \
-            void *temp = VEC_REALLOC(_vec_hdr_addr(vec), sizeof(size_t) * 3 + size * _vec_hdr_item_size(vec));  \
+            void *temp = VEC_REALLOC(_vec_hdr_addr(vec), _vec_hdr_size + size * _vec_hdr_item_size(vec));  \
             if (temp == NULL) {                                                                                 \
                 break;                                                                                          \
             }                                                                                                   \
-            vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                          \
+            vec = _vec_cast(vec) ((char *) temp + _vec_hdr_size);                                          \
                                                                                                                 \
             _vec_hdr_cap(vec) = size;                                                                           \
         }                                                                                                       \
@@ -240,12 +240,12 @@ VEC_API     void    vec_remove(void *vec, size_t index);
         if (_vec_hdr_cap(vec) != _vec_hdr_len(vec)) {                                                           \
             size_t new_cap = _vec_hdr_len(vec) > 0 ? _vec_hdr_len(vec) : 1;                                     \
             void *temp = VEC_REALLOC(                                                                           \
-                _vec_hdr_addr(vec), sizeof(size_t) * 3 + new_cap * _vec_hdr_item_size(vec)                      \
+                _vec_hdr_addr(vec), _vec_hdr_size + new_cap * _vec_hdr_item_size(vec)                      \
             );                                                                                                  \
             if (temp == NULL) {                                                                                 \
                 break;                                                                                          \
             }                                                                                                   \
-            vec = _vec_cast(vec) ((char *) temp + sizeof(size_t) * 3);                                          \
+            vec = _vec_cast(vec) ((char *) temp + _vec_hdr_size);                                          \
                                                                                                                 \
             _vec_hdr_cap(vec) = new_cap;                                                                        \
         }                                                                                                       \
@@ -260,11 +260,12 @@ VEC_API     void    vec_remove(void *vec, size_t index);
  * ========================================================
  */
 // General Accessors/Helpers for the Vec API.
-#define _vec_hdr_addr(vec) ((char *) vec - sizeof(size_t) * 3)
+#define _vec_hdr_size (sizeof(size_t) * 3)
+#define _vec_hdr_addr(vec) ((char *) vec - _vec_hdr_size)
 #define _vec_hdr_cap(vec) (* (size_t *) (_vec_hdr_addr(vec)))
 #define _vec_hdr_len(vec) (* (size_t *) (_vec_hdr_addr(vec) + sizeof(size_t)))
 #define _vec_hdr_item_size(vec) (* (size_t *) (_vec_hdr_addr(vec) + sizeof(size_t) * 2))
-#define _vec_total_size(vec) (sizeof(size_t) * 3 + _vec_hdr_cap(vec) * _vec_hdr_item_size(vec))
+#define _vec_total_size(vec) (_vec_hdr_size + _vec_hdr_cap(vec) * _vec_hdr_item_size(vec))
 
 // Helper macro-function exclusively for the macro-functions in the Vec API.
 #ifdef __cplusplus
@@ -292,11 +293,11 @@ VEC_API inline void* vec_new(size_t size) {
 
 
 VEC_API inline void* vec_newlen(size_t size, size_t nitems) {
-    void *vec = VEC_CALLOC(1, sizeof(size_t) * 3 + size * nitems);
+    void *vec = VEC_CALLOC(1, _vec_hdr_size + size * nitems);
     if (vec == NULL) {
         raise(SIGSEGV);
     }
-    vec = (char *) vec + sizeof(size_t) * 3;
+    vec = (char *) vec + _vec_hdr_size;
 
     _vec_hdr_cap(vec) = nitems;
     _vec_hdr_len(vec) = 0;
@@ -312,11 +313,11 @@ VEC_API inline void* vec_newsize(size_t size, size_t nitems) {
 
 
 VEC_API inline void* vec_dup(void *vec) {
-    void *dup = VEC_MALLOC(sizeof(size_t) * 3 + _vec_hdr_cap(vec) * _vec_hdr_item_size(vec));
+    void *dup = VEC_MALLOC(_vec_hdr_size + _vec_hdr_cap(vec) * _vec_hdr_item_size(vec));
     if (dup == NULL) {
         raise(SIGSEGV);
     }
-    dup = (char *) dup + sizeof(size_t) * 3;
+    dup = (char *) dup + _vec_hdr_size;
 
     memcpy(_vec_hdr_addr(dup), _vec_hdr_addr(vec), _vec_total_size(vec));
 
