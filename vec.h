@@ -212,7 +212,7 @@ VEC_API     void    vec_remove(void *vec, size_t index);
                 _vec_hdr_item_size(vec) * ((_vec_hdr_len(vec) - 1) - index)                                     \
             );                                                                                                  \
             vec[index] = item;                                                                                  \
-        } else if (index == 0 && _vec_hdr_len(vec) == 0) {                                                      \
+        } else if (index == _vec_hdr_len(vec)) {                                                                \
             vec_push(vec, item);                                                                                \
         }                                                                                                       \
     } while(0)
