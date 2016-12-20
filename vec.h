@@ -51,7 +51,7 @@
  *          file that is using this header.
  *
  *      VEC_MAX_PREALLOC (<max prealloc size>)
- *          By default, the maximum preallocation size of a vec is one megabyte. 
+ *          By default, the maximum preallocation size of a vec is one MiB. 
  *      
  *      VEC_MALLOC <func name>
  *          By default, uses 'malloc' from the stdlib. 
