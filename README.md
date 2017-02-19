@@ -13,7 +13,7 @@ Also optionally define the symbols listed in the header's subtitled section "OPT
 ## API
 The following is a list of available functions (all prefixed with "vec_"):
 - new
-- new_len, new_size
+- new_cap
 - dup
 - free
 - cap
