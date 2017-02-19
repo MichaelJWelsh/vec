@@ -1,5 +1,7 @@
 Version 2.0.0:
-- OCD got the best of me, fixed naming conventions (newlen/newsize/isempty -> new_len/new_size/is_empty)
+- OCD got the best of me, fixed naming convention (isempty(...) -> is_empty(...)).
+- Got rid of 'vec_newlen(...)' and 'vec_newsize(...)'. Replaced with 'vec_new_cap(...)' which does the same exact thing, but is now more explicit in its intentions.
+- Since most functions in the API can't return an error code, error handling has been rather poor. To remedy this, rather than raising a SIGSEGV, the function will exit immediately, set errno to 'ENOMEM' (out of memory), and leave the parameters left unchanged.
 
 
 Version 1.1.1:
