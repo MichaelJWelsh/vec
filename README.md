@@ -24,6 +24,7 @@ The following is a list of available functions (all prefixed with "vec_"):
 - pop
 - insert
 - remove
+- swap
 - reserve
 - shrink
 
