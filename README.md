@@ -1,5 +1,5 @@
 # Vec
-The Vec library is meant to add generic and fast vectors to C (and is compatible with C++). A "vec" in a sense is a fat pointer to anything. The Vec API not only provides ways of creating, destroying, and manipulating generic fat pointers, but also functionality common to the traditional C++ vector type. Refer to the greatly commented header file for details.
+The Vec library (written under the POSIX standard) is meant to add generic and fast vectors to C (and is compatible with C++). A "vec" in a sense is a fat pointer to anything. The Vec API not only provides ways of creating, destroying, and manipulating generic fat pointers, but also functionality common to the traditional C++ vector type. Refer to the greatly commented header file for details.
 
 
 ## Usage
